@@ -22,6 +22,7 @@ import static com.example.josel.projet.R.id.post_image;
 public class MainActivity extends AppCompatActivity {
     
     private RecyclerView mBlogList;
+    private LinearLayoutManager mLayoutManager;
 
     private DatabaseReference mDatabase;
 
@@ -34,6 +35,12 @@ public class MainActivity extends AppCompatActivity {
         mBlogList = (RecyclerView) findViewById(R.id.blog_list);
         mBlogList.setHasFixedSize(true);
         mBlogList.setLayoutManager(new LinearLayoutManager(this));
+// Properties of the LinearLayoutManager
+        mLayoutManager = new LinearLayoutManager(MainActivity.this);
+        mLayoutManager.setReverseLayout(true);
+        mLayoutManager.setStackFromEnd(true);
+//Set properties to the RecyclerView
+        mBlogList.setLayoutManager(mLayoutManager);
 
     }
 
