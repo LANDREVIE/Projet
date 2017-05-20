@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
         mBlogList.setHasFixedSize(true);
         mBlogList.setLayoutManager(new LinearLayoutManager(this));
 
-
     }
 
     @Override
