@@ -20,7 +20,7 @@ import com.squareup.picasso.Picasso;
 import static com.example.josel.projet.R.id.post_image;
 
 public class MainActivity extends AppCompatActivity {
-
+    
     private RecyclerView mBlogList;
 
     private DatabaseReference mDatabase;
