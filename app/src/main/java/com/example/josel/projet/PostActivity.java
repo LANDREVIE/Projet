@@ -19,6 +19,7 @@ import java.net.URL;
 
 public class PostActivity extends AppCompatActivity {
 
+    // modif test Fred
     private ImageView imageView;
 
     private EditText mPosteTitle;
