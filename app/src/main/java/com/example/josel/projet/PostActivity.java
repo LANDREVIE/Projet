@@ -3,6 +3,8 @@ package com.example.josel.projet;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -13,8 +15,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.ActionCodeResult;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -43,10 +48,28 @@ public class PostActivity extends AppCompatActivity {
 
     private ProgressDialog mProgress;
 
+//José
+    private Button mUploadBtn;
+    private static final int CAMERA_REQUEST_CODE=1;
+//Fin José
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
+
+//José
+        mUploadBtn = (Button)findViewById(R.id.upload);
+        mUploadBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+                startActivityForResult(intent, CAMERA_REQUEST_CODE);
+
+            }
+        });
+//Fin José
 
         mStorage = FirebaseStorage.getInstance().getReference();
         mDataBase = FirebaseDatabase.getInstance().getReference().child("Blog");
@@ -85,6 +108,7 @@ public class PostActivity extends AppCompatActivity {
         final String title_val = mPostTitle.getText().toString().trim();
         final String desc_val = mPostDesc.getText().toString().trim();
 
+
         if(!TextUtils.isEmpty(title_val) && !TextUtils.isEmpty(desc_val) && mImageUri != null){
             StorageReference filepath = mStorage.child("Blog_Images").child(mImageUri.getLastPathSegment());
             filepath.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -118,6 +142,21 @@ public class PostActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
+//José
+        if (requestCode==CAMERA_REQUEST_CODE && requestCode==RESULT_OK){
+
+            Uri uri = data.getData();
+
+            StorageReference filepath = mStorage.child("Blog_Images").child(uri.getLastPathSegment());
+
+            filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                }
+            });
+        }
+//Fin José
 
         if(requestCode == GALLERY_REQUEST && resultCode == RESULT_OK){
             mImageUri = data.getData();
@@ -125,7 +164,6 @@ public class PostActivity extends AppCompatActivity {
             mSelectImage.setImageURI(mImageUri);
         }
     }
-
 
 }
 
