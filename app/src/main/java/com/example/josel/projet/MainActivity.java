@@ -107,8 +107,6 @@ public class MainActivity extends AppCompatActivity {
             post_location.setText(location);
         }
 //Fin Location
-
-
     }
 
 
