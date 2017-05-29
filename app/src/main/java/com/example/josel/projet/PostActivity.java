@@ -17,6 +17,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.ActionCodeResult;
@@ -25,6 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.net.URL;
 
@@ -61,10 +63,9 @@ public class PostActivity extends AppCompatActivity {
         mUploadBtn = (Button)findViewById(R.id.upload);
         mUploadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
 
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
                 startActivityForResult(intent, CAMERA_REQUEST_CODE);
 
             }
@@ -97,7 +98,6 @@ public class PostActivity extends AppCompatActivity {
             public void onClick(View view){
                 startPosting();
 
-
             }
         });}
 
@@ -108,7 +108,6 @@ public class PostActivity extends AppCompatActivity {
         final String title_val = mPostTitle.getText().toString().trim();
         final String desc_val = mPostDesc.getText().toString().trim();
 
-
         if(!TextUtils.isEmpty(title_val) && !TextUtils.isEmpty(desc_val) && mImageUri != null){
             StorageReference filepath = mStorage.child("Blog_Images").child(mImageUri.getLastPathSegment());
             filepath.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -118,23 +117,16 @@ public class PostActivity extends AppCompatActivity {
                     DatabaseReference newPost = mDataBase.push();
                     //DatabaseReference newPost = null;
                     //newPost = newPost.push();
-
                     newPost.child("title").setValue(title_val);
                     newPost.child("desc").setValue(desc_val);
                     newPost.child("date").setValue("test");
                     newPost.child("location").setValue("test");
                     newPost.child("image").setValue(downloadUrl.toString());
-
                     mProgress.dismiss();
                     Intent toy = new Intent(PostActivity.this, MainActivity.class);
                     startActivity(toy);
-
-
-
                 }
             });
-
-
         }
     }
 
@@ -143,27 +135,16 @@ public class PostActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
 //José
-        if (requestCode==CAMERA_REQUEST_CODE && requestCode==RESULT_OK){
-
-            Uri uri = data.getData();
-
-            StorageReference filepath = mStorage.child("Blog_Images").child(uri.getLastPathSegment());
-
-            filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-                }
-            });
+        mImageUri = data.getData();
+        if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK){
+            Glide.with(PostActivity.this).load(mImageUri).into(mSelectImage);
         }
 //Fin José
 
         if(requestCode == GALLERY_REQUEST && resultCode == RESULT_OK){
             mImageUri = data.getData();
-
             mSelectImage.setImageURI(mImageUri);
         }
     }
-
 }
 
