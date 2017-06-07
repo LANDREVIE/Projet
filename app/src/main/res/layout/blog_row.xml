@@ -36,6 +36,13 @@
             android:text="The Post Description Goes Here" />
         <!-- Text View pour la date -->
         <TextView
+            android:id="@+id/post_size"
+            android:layout_width="match_parent"
+            android:layout_height="37dp"
+            android:padding="10dp"
+            android:text="Post Size Goes Here" />
+
+        <TextView
             android:id="@+id/post_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

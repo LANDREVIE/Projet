@@ -11,18 +11,20 @@ public class Blog {
     private String date;
     private String location;
     private String image;
+    private String size;
 
 
     public Blog(){
 
     }
 
-    public Blog(String title, String desc, String date, String location, String image) {
+    public Blog(String title, String desc, String date, String location, String image, String size) {
         this.title = title;
         this.desc = desc;
         this.date = date;
         this.location = location;
         this.image = image;
+        this.size = size;
     }
 
 
@@ -32,6 +34,14 @@ public class Blog {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
     }
 
     public String getDesc() {

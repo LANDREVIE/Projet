@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
                 viewHolder.setTitle(model.getTitle());
                 viewHolder.setDesc(model.getDesc());
                 viewHolder.setDate(model.getDate());
+                viewHolder.setSize(model.getSize());
                 viewHolder.setLocation(model.getLocation());
                 viewHolder.setImage(getApplicationContext(), model.getImage());
             }
@@ -99,6 +100,13 @@ public class MainActivity extends AppCompatActivity {
             post_desc.setText(desc);
         }
 //Fin Description
+
+//Taille
+        public void setSize(String size) {
+            TextView post_size = (TextView) mView.findViewById(R.id.post_size);
+            post_size.setText(size);
+        }
+//Fin Taille
 
 //Date
         public void setDate(String date){
